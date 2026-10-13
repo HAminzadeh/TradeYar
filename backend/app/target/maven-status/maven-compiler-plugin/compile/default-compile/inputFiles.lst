@@ -12,6 +12,7 @@ D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\mt5\Mt5C
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\news\NewsController.java
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\paper\PaperTradingService.java
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\reports\ReportsController.java
+D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\research\ResearchReadinessController.java
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\risk\RiskController.java
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\signals\SignalsController.java
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\strategies\StrategyService.java
@@ -19,3 +20,9 @@ D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\SystemCo
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\technical\TechnicalService.java
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\TradeYarApplication.java
 D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\users\PreferencesController.java
+D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\v05\AnalysisV05.java
+D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\v05\MarketBars.java
+D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\v05\ResearchV05.java
+D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\v05\StrategyEngineV05.java
+D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\v05\StreamingV05.java
+D:\ChatGPT_Projects\TradeYar\backend\app\src\main\java\com\tradeyar\app\workspace\WorkspaceController.java

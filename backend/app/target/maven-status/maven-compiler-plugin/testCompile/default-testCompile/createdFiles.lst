@@ -1,5 +1,9 @@
 com\tradeyar\app\execution\LiveExecutionTest.class
-com\tradeyar\app\core\ModulesControllerTest.class
+com\tradeyar\app\workspace\WorkspaceControllerContractTest.class
 com\tradeyar\app\ApiContractRegressionTest.class
-com\tradeyar\app\risk\RiskControllerTest.class
+com\tradeyar\app\v05\StrategyEngineV05Test.class
+com\tradeyar\app\research\ResearchReadinessContractTest.class
 com\tradeyar\app\TradeYarSmokeTest.class
+com\tradeyar\app\v05\AnalysisV05Test.class
+com\tradeyar\app\core\ModulesControllerTest.class
+com\tradeyar\app\risk\RiskControllerTest.class

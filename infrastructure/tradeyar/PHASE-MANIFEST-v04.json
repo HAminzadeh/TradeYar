@@ -1,0 +1,167 @@
+{
+  "release": "0.4.0-stage01",
+  "baselineCommit": "5549b4c9ee49c6b205bcbae083daa8f85c6547da",
+  "moduleCountTarget": 23,
+  "strategyCountTarget": 20,
+  "baselineStrategyImplementations": 3,
+  "stages": [
+    {
+      "id": 0,
+      "title": "Baseline contracts and safety tests",
+      "status": "IMPLEMENTED_IN_THIS_BUNDLE",
+      "prerequisiteStages": []
+    },
+    {
+      "id": 1,
+      "title": "Seven grouped menus, guides, defaults, M21/M22/M23 readiness",
+      "status": "IMPLEMENTED_IN_THIS_BUNDLE",
+      "prerequisiteStages": [
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "title": "PostgreSQL, audit, migrations and identity",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Explicit-consent signed MT5 installation and read-only account",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Multi-timeframe verified market history and tick quality",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Resumable ten-year dataset backfill and immutable snapshots",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Twenty implemented style-compatible strategies",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Walk-forward, OOS and cost-aware backtesting",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Knowledge registry, daily incremental research and optional ML",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Strict consensus M21 with quality and risk veto",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Durable paper trading and audit reports",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": 11,
+      "title": "End-to-end integration and secure portable release",
+      "status": "NOT_IMPLEMENTED",
+      "prerequisiteStages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  ],
+  "safety": {
+    "liveExecutionEnabled": false,
+    "researchHistoryImported": false,
+    "validatedMLModel": false,
+    "MT5InstallAutomated": false,
+    "hardConsensusVotesRequired": 16,
+    "hardConsensusTotal": 20
+  },
+  "readme": "docs/TRADEYAR-V04-EXECUTION.md"
+}

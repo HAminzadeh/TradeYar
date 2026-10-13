@@ -1,0 +1,256 @@
+export type ModuleGuide = {id:string;fa:string;en:string;whatFa:string;whatEn:string;howFa:string;howEn:string;defaultFa:string;defaultEn:string};
+export const GUIDES: ModuleGuide[] = [
+  {
+    "id": "M01",
+    "fa": "داشبورد مرکزی",
+    "en": "Core Dashboard",
+    "whatFa": "نمایش سلامت Spring Boot، قیمت دمو و فهرست ماژول‌ها",
+    "whatEn": "Displays Spring Boot health, demo quotes and registered modules",
+    "howFa": "بازخوانی سلامت سیستم و رفتن به صفحه ماژول",
+    "howEn": "Refresh system health and navigate modules",
+    "defaultFa": "فقط نمایش اطلاعات؛ تنظیم معاملاتی ندارد",
+    "defaultEn": "Read-only, no trading settings"
+  },
+  {
+    "id": "M02",
+    "fa": "زبان و ظاهر",
+    "en": "Language & Appearance",
+    "whatFa": "رابط فارسی RTL و انگلیسی LTR و دو تم قابل انتخاب",
+    "whatEn": "Persian RTL and English LTR and two themes",
+    "howFa": "انتخاب زبان و تم؛ ذخیره در مرورگر",
+    "howEn": "Choose language/theme stored in browser",
+    "defaultFa": "زبان فارسی، تم تیره",
+    "defaultEn": "Persian and dark theme"
+  },
+  {
+    "id": "M03",
+    "fa": "ترجیحات کاربر",
+    "en": "Preferences",
+    "whatFa": "ترجیحات فعلاً روی سرور در حافظه و بین کاربران مشترک هستند",
+    "whatEn": "Server preferences remain shared in-memory",
+    "howFa": "ویرایش fa-IR/en-US و dark/light و ارسال PUT",
+    "howEn": "Edit locale and theme with PUT",
+    "defaultFa": "fa-IR و dark؛ بدون احراز هویت",
+    "defaultEn": "fa-IR and dark; no authentication"
+  },
+  {
+    "id": "M04",
+    "fa": "داده بازار",
+    "en": "Market Data",
+    "whatFa": "کندل و Bid/Ask ساختگی؛ فاقد خوراک قیمت معتبر بروکر",
+    "whatEn": "Synthetic candles and bid/ask; no verified broker feed",
+    "howFa": "نماد EURUSD/GBPUSD/USDJPY/XAUUSD را انتخاب کنید",
+    "howEn": "Choose one of four demo symbols",
+    "defaultFa": "EURUSD؛ منبع SYNTHETIC_DEMO",
+    "defaultEn": "EURUSD; SYNTHETIC_DEMO"
+  },
+  {
+    "id": "M05",
+    "fa": "نمودار",
+    "en": "Charts",
+    "whatFa": "نمایش کندل‌های دمو با lightweight-charts",
+    "whatEn": "Demo candlestick view with lightweight-charts",
+    "howFa": "انتخاب نماد و بازخوانی کندل‌ها",
+    "howEn": "Change symbol and refresh bars",
+    "defaultFa": "EURUSD؛ H1؛ داده دمو",
+    "defaultEn": "EURUSD; H1; demo bars"
+  },
+  {
+    "id": "M06",
+    "fa": "MetaTrader 5",
+    "en": "MetaTrader 5",
+    "whatFa": "وضعیت فایل CSV خواندنی؛ اتصال بروکر هنوز کامل نیست",
+    "whatEn": "Read-only CSV status; broker adapter is not production ready",
+    "howFa": "مسیر فایل را در متغیر محیطی TRADEYAR_MT5_TICKS_FILE تنظیم کنید",
+    "howEn": "Set TRADEYAR_MT5_TICKS_FILE for a local snapshot",
+    "defaultFa": "نصب خودکار غیرفعال، فقط خواندنی",
+    "defaultEn": "No automatic installation, read-only"
+  },
+  {
+    "id": "M07",
+    "fa": "تحلیل تکنیکال",
+    "en": "Technical Analysis",
+    "whatFa": "SMA20، EMA20 و RSI14 روی ۱۰۰ کندل دمو",
+    "whatEn": "SMA20, EMA20 and RSI14 using 100 demo bars",
+    "howFa": "انتخاب نماد و مشاهده مقادیر شاخص",
+    "howEn": "Select symbol and inspect indicators",
+    "defaultFa": "SMA20، EMA20، RSI14",
+    "defaultEn": "SMA20, EMA20, RSI14"
+  },
+  {
+    "id": "M08",
+    "fa": "استراتژی‌ها",
+    "en": "Strategies",
+    "whatFa": "فهرست ۲۰ مورد؛ تنها SMA_CROSS، EMA_CROSS، RSI_REVERSAL دارای منطق اولیه هستند",
+    "whatEn": "20 listed; only 3 have preliminary evaluation",
+    "howFa": "انتخاب استراتژی دارای implemented=true و ارزیابی",
+    "howEn": "Choose implemented=true strategy and evaluate",
+    "defaultFa": "SMA_CROSS؛ هیچ معامله واقعی مجاز نیست",
+    "defaultEn": "SMA_CROSS; no real orders"
+  },
+  {
+    "id": "M09",
+    "fa": "بک‌تست",
+    "en": "Backtesting",
+    "whatFa": "آزمون آزمایشی SMA_CROSS روی داده ساختگی؛ نه تاریخچه واقعی",
+    "whatEn": "Demonstration SMA_CROSS on synthetic data",
+    "howFa": "انتخاب نماد و اسپرد سپس اجرای آزمون",
+    "howEn": "Choose symbol/spread and run a demo test",
+    "defaultFa": "اسپرد ۱٫۵ پیپ؛ SMA_CROSS",
+    "defaultEn": "1.5-pip spread; SMA_CROSS"
+  },
+  {
+    "id": "M10",
+    "fa": "سیگنال‌ها",
+    "en": "Signals",
+    "whatFa": "پیش‌نمایش سیگنال بر پایه SMA_CROSS، بدون اعتبار آماری",
+    "whatEn": "SMA_CROSS preview without statistical validation",
+    "howFa": "انتخاب نماد و بازخوانی نتیجه",
+    "howEn": "Choose symbol and refresh",
+    "defaultFa": "NO_TRADE تا تأیید اعتبار داده/استراتژی",
+    "defaultEn": "NO_TRADE until validated"
+  },
+  {
+    "id": "M11",
+    "fa": "محاسبه ریسک",
+    "en": "Risk Sizing",
+    "whatFa": "محاسبه تخمینی حجم؛ ارزش پیپ، ارز حساب و مارجین واقعی تأیید نشده",
+    "whatEn": "Indicative sizing; contract, conversion and margin not verified",
+    "howFa": "سرمایه، ریسک، حد ضرر و ارزش پیپ را تعیین کنید",
+    "howEn": "Set equity, risk, stop and pip value",
+    "defaultFa": "10000، ۰٫۵٪، ۲۵ پیپ، ۱۰ ارزش پیپ در لات",
+    "defaultEn": "10000 equity, 0.5%, 25 pips, pip-value 10"
+  },
+  {
+    "id": "M12",
+    "fa": "معامله آزمایشی",
+    "en": "Paper Trading",
+    "whatFa": "ثبت سفارش ساختگی در حافظه با قیمت دمو",
+    "whatEn": "Memory-only paper orders with synthetic quotes",
+    "howFa": "نماد، BUY/SELL و حجم ۰٫۰۱ تا ۱ لات",
+    "howEn": "Choose symbol, side and 0.01–1 lot",
+    "defaultFa": "EURUSD، BUY، ۰٫۱ لات",
+    "defaultEn": "EURUSD, BUY, 0.1 lot"
+  },
+  {
+    "id": "M13",
+    "fa": "ژورنال",
+    "en": "Journal",
+    "whatFa": "سابقه سفارش‌های آزمایشی؛ سود تحقق‌یافته هنوز قابل محاسبه نیست",
+    "whatEn": "Paper fills only; realized P&L unavailable",
+    "howFa": "جدول سفارش‌های ثبت‌شده را ببینید",
+    "howEn": "Inspect prior paper fills",
+    "defaultFa": "فقط خواندنی",
+    "defaultEn": "Read only"
+  },
+  {
+    "id": "M14",
+    "fa": "تقویم نمونه",
+    "en": "News & Calendar",
+    "whatFa": "رویدادهای STATIC_EXAMPLES؛ اخبار واقعی نیست",
+    "whatEn": "STATIC_EXAMPLES events; not a real news feed",
+    "howFa": "رویدادها را برای آشنایی با قالب داده بخوانید",
+    "howEn": "Review placeholder events",
+    "defaultFa": "فیلتر خبری زنده غیرفعال",
+    "defaultEn": "Live news filter unavailable"
+  },
+  {
+    "id": "M15",
+    "fa": "هوش مصنوعی",
+    "en": "AI Status",
+    "whatFa": "فقط سلامت Python بررسی می‌شود؛ مدل آموزش‌دیده وجود ندارد",
+    "whatEn": "Python service health only; no trained model",
+    "howFa": "وضعیت اتصال محلی را ببینید",
+    "howEn": "Check local AI service connectivity",
+    "defaultFa": "هیچ توصیه AI تولید نمی‌شود",
+    "defaultEn": "AI recommendations unavailable"
+  },
+  {
+    "id": "M16",
+    "fa": "هشدارها",
+    "en": "Alerts",
+    "whatFa": "تعریف شرط روی قیمت ساختگی و بررسی دستی؛ اعلان خودکار نداریم",
+    "whatEn": "Demo threshold alert and manual check; no notifications",
+    "howFa": "شرط ABOVE/BELOW و آستانه را ثبت و بررسی کنید",
+    "howEn": "Create ABOVE/BELOW alert and run a manual check",
+    "defaultFa": "EURUSD، ABOVE، ۱٫۲",
+    "defaultEn": "EURUSD, ABOVE, 1.2"
+  },
+  {
+    "id": "M17",
+    "fa": "گزارش",
+    "en": "Reports",
+    "whatFa": "شمارش سفارش‌های آزمایشی؛ سود و وین‌ریت واقعی محاسبه نمی‌شود",
+    "whatEn": "Paper-fill counts; no realized P&L or win rate",
+    "howFa": "آمار دمو را بازخوانی کنید",
+    "howEn": "Refresh demo counts",
+    "defaultFa": "فقط خواندنی",
+    "defaultEn": "Read only"
+  },
+  {
+    "id": "M18",
+    "fa": "آموزش",
+    "en": "Learning Center",
+    "whatFa": "درس‌های مقدماتی دو زبانه",
+    "whatEn": "Introductory bilingual lessons",
+    "howFa": "درس‌ها را انتخاب و متن را بخوانید",
+    "howEn": "Select a lesson and read",
+    "defaultFa": "فارسی، مبانی فارکس",
+    "defaultEn": "Persian, forex basics"
+  },
+  {
+    "id": "M19",
+    "fa": "زیرساخت",
+    "en": "Infrastructure",
+    "whatFa": "پایش سلامت و رجیستری ۲۰ ماژول اصلی",
+    "whatEn": "Health and legacy 20-module registry",
+    "howFa": "سلامت سرویس‌ها را بررسی کنید",
+    "howEn": "Inspect health and module status",
+    "defaultFa": "فقط خواندنی",
+    "defaultEn": "Read only"
+  },
+  {
+    "id": "M20",
+    "fa": "قفل معاملات واقعی",
+    "en": "Live Execution Lock",
+    "whatFa": "تمام درخواست‌های ثبت سفارش واقعی با HTTP 423 رد می‌شوند",
+    "whatEn": "All real order submissions are rejected HTTP 423",
+    "howFa": "دکمه تست قفل فقط برای بررسی ایمنی است",
+    "howEn": "Lock-test button verifies safety only",
+    "defaultFa": "LOCKED و DISABLED",
+    "defaultEn": "LOCKED and DISABLED"
+  },
+  {
+    "id": "M21",
+    "fa": "موتور اجماع",
+    "en": "Consensus Engine",
+    "whatFa": "۲۰ راهبرد مورد نیاز است؛ فقط ۳ مورد اولیه قابل محاسبه است",
+    "whatEn": "20 required; only 3 basic algorithms available",
+    "howFa": "نماد را انتخاب کرده و پوشش و آراء را ببینید",
+    "howEn": "Select symbol and inspect coverage/votes",
+    "defaultFa": "آستانه ۸۰٪ یعنی ۱۶ از ۲۰؛ خروجی NO_DECISION",
+    "defaultEn": "80% requires 16/20; output NO_DECISION"
+  },
+  {
+    "id": "M22",
+    "fa": "سبک معامله‌گری",
+    "en": "Trading Style Profiles",
+    "whatFa": "۶ پروفایل برای اسکالپ تا هفتگی؛ همه نیازمند اعتبارسنجی",
+    "whatEn": "Six style profiles; none yet validated",
+    "howFa": "سبک و تایم‌فریم و ریسک کاغذی را انتخاب و ذخیره کنید",
+    "howEn": "Choose style, timeframe and paper-risk cap",
+    "defaultFa": "INTRADAY، M15، ۰٫۲۵٪، اجماع ۸۰٪",
+    "defaultEn": "INTRADAY M15, 0.25% and 80% consensus"
+  },
+  {
+    "id": "M23",
+    "fa": "مدیریت دانش",
+    "en": "Knowledge Management",
+    "whatFa": "پرونده پژوهشی برای ۲۰ استراتژی طراحی شده اما داده تاریخی/مدل نداریم",
+    "whatEn": "20-strategy research registry planned; no historic dataset/model yet",
+    "howFa": "وضعیت WAITING_FOR_DATA و الزامات داده را ببینید",
+    "howEn": "Inspect WAITING_FOR_DATA and coverage requirements",
+    "defaultFa": "دوره پژوهش ۱۰ سال؛ پوشش تأییدشده صفر",
+    "defaultEn": "10-year research goal; verified coverage zero"
+  }
+];

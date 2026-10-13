@@ -1,0 +1,10 @@
+/* TradeYar v0.5 overlay, preserving theme variables and existing layout selection */
+.v05-workspace{display:grid;gap:15px;min-width:0}
+.v05-tags{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.v05-tags span{font-size:11px;padding:7px 10px;border-radius:8px;background:var(--input);border:1px solid var(--border);color:var(--muted)}
+.v05-strategy-row{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:transparent!important;border:0!important;border-bottom:1px solid var(--border)!important;color:var(--text)!important;padding:11px 12px!important;text-align:start!important;border-radius:0!important;min-width:0}
+.v05-strategy-row:hover,.v05-strategy-row[aria-expanded="true"]{background:var(--hover)!important}
+.v05-strategy-row small{color:var(--muted);padding-inline-end:10px}
+.v05-vote{font-size:11px;font-weight:700;white-space:nowrap}.v05-vote.BUY{color:#42d39a}.v05-vote.SELL{color:#ff9292}.v05-vote.NO_SIGNAL{color:var(--muted)}.v05-vote.NOT_EVALUATED{color:var(--warning)}
+.v05-strategy-detail{border:1px solid var(--border);background:var(--input);border-radius:9px;padding:15px;margin:15px 0;overflow-wrap:anywhere;font-size:12px;line-height:1.9}.v05-strategy-detail p{margin:7px 0;color:var(--muted)}
+@media(max-width:530px){.v05-strategy-row{font-size:11px!important}.v05-tags span{font-size:10px}}

@@ -21,6 +21,9 @@ export const modules: ModuleItem[] = [
   {id:'M18',fa:'مرکز آموزش',en:'Learning Center',descriptionFa:'فهرست درس‌های پایه فارسی و انگلیسی',descriptionEn:'Bilingual learning catalog',mode:'DEMO'},
   {id:'M19',fa:'زیرساخت',en:'Infrastructure',descriptionFa:'پایش سلامت و وضعیت زیرساخت توسعه',descriptionEn:'Health and module diagnostics',mode:'SCAFFOLD'},
   {id:'M20',fa:'معاملات واقعی (قفل)',en:'Live Execution (Locked)',descriptionFa:'فقط مشاهده قفل و آزمون رد سفارش ۴۲۳',descriptionEn:'Verify hard lock / HTTP 423',mode:'LOCKED'},
+  {id:'M21',fa:'مرکز اجماع استراتژی‌ها',en:'Decision & Consensus',descriptionFa:'اجماع ۱۶ از ۲۰؛ فعلاً ناکافی و غیرقابل اجرا',descriptionEn:'Strict 16/20; insufficient coverage until validated',mode:'NOT_READY'},
+  {id:'M22',fa:'سبک‌های معامله‌گری',en:'Trading Styles',descriptionFa:'پروفایل اسکالپ، روزانه، سوئینگ، پوزیشن و هفتگی',descriptionEn:'Scalping, intraday, swing, position and weekly profiles',mode:'RESEARCH'},
+  {id:'M23',fa:'مدیریت دانش استراتژی‌ها',en:'Strategy Knowledge',descriptionFa:'پوشش داده ده‌ساله، اعتبار پژوهش و مدل‌های یادگیری',descriptionEn:'Historical coverage, research evidence and ML status',mode:'WAITING_FOR_DATA'},
 ];
 export function nameOf(id:string, locale:Locale):string { const m=modules.find(x=>x.id===id); return m ? m[locale] : id; }
 export function formatNumber(n:unknown, max=5):string {
