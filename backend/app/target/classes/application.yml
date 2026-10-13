@@ -1,16 +1,14 @@
 spring:
   application:
     name: TradeYar
-
 server:
-  port: 8080
-
+  address: ${TRADEYAR_BIND_ADDRESS:127.0.0.1}
+  port: ${PORT:8080}
 management:
   endpoints:
     web:
       exposure:
         include: health,info
-
 tradeyar:
   trading:
     live-enabled: false

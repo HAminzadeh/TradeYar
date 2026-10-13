@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 
 $Backend = Join-Path $Root "backend"
@@ -8,7 +8,7 @@ $Python = Join-Path $Root "python/ai-service"
 Start-Process powershell -ArgumentList @(
     "-NoExit",
     "-Command",
-    "cd '$Backend'; mvn -pl app -am spring-boot:run"
+    "cd '$Backend'; powershell.exe -NoProfile -ExecutionPolicy Bypass -File '$Root\scripts\Invoke-TradeYar-Maven.ps1' -Goal Start"
 )
 
 Start-Process powershell -ArgumentList @(

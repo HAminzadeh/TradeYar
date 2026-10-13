@@ -1,0 +1,20 @@
+# Compiled and generated
+**/target/
+**/node_modules/
+**/dist/
+**/build/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.venv/
+*.log
+# Secrets and local editor state
+.env
+.env.*
+!.env.example
+**/.idea/
+**/.vscode/
+.tradeyar-backups/
+# OS
+.DS_Store
+Thumbs.db

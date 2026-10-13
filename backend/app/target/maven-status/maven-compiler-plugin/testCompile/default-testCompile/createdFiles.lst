@@ -1,0 +1,5 @@
+com\tradeyar\app\execution\LiveExecutionTest.class
+com\tradeyar\app\core\ModulesControllerTest.class
+com\tradeyar\app\ApiContractRegressionTest.class
+com\tradeyar\app\risk\RiskControllerTest.class
+com\tradeyar\app\TradeYarSmokeTest.class

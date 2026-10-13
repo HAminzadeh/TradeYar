@@ -1,38 +1,23 @@
-# TradeYar
+# TradeYar | ØªØ±ÛŒØ¯ÛŒØ§Ø±
 
-Java-first intelligent forex workstation.
+Java-first bilingual forex research workstation. **Development scaffold only.** Persian (RTL) is the default UI language; English (LTR) can be selected.
 
-Technologies:
-- Java 21
-- Spring Boot
-- Python / FastAPI
-- React / TypeScript
-- MetaTrader 5 / MQL5
-- PostgreSQL
-- Redis
+## Documentation
 
-The generated version is an initial project scaffold.
+- [Architecture](docs/ARCHITECTURE.md)
+- [All stages and modules](docs/PHASES.md)
+- [Development API](docs/API.md)
 
-MT5 account integration, market feeds, live indicators,
-20 actual strategies, backtesting, ML and news intelligence
-are planned modules, not completed trading features.
+## Generate the full scaffold
 
-Live order submission is disabled.
+From PowerShell in the repository:
 
-## Setup
-
-Run:
-
+```powershell
+.\scripts\Build-TradeYar.ps1 -Stage All -Verify
 .\scripts\Setup-TradeYar.ps1 -InstallDependencies
-
-## Start
-
-Run:
-
 .\scripts\Start-TradeYar.ps1
+```
 
-Dashboard:
-http://localhost:5173
+Dashboard http://localhost:5173 â€” Backend http://localhost:8080/api/health
 
-Backend:
-http://localhost:8080/api/health
+**Important:** only synthetic demo quotes are generated; paper orders and user preferences are stored in memory, the Python AI model is untrained, the MT5 bridge is read-only, and live order submission is hard-locked. PostgreSQL and Redis are provisioned but not yet connected to backend repositories. No real-money trading capability is provided.

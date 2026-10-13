@@ -1,4 +1,4 @@
-param([switch]$InstallDependencies)
+﻿param([switch]$InstallDependencies)
 
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
@@ -17,7 +17,7 @@ if ($InstallDependencies) {
     if (Get-Command mvn -ErrorAction SilentlyContinue) {
         Push-Location (Join-Path $Root "backend")
         try {
-            mvn clean package -DskipTests
+            & (Join-Path $Root "scripts\Invoke-TradeYar-Maven.ps1") -Goal Package
             if ($LASTEXITCODE -ne 0) {
                 throw "Maven build failed"
             }
