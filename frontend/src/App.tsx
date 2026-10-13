@@ -1,96 +1,62 @@
-import { useEffect, useMemo, useState } from 'react';
-import { CandlestickSeries, createChart, type IChartApi, type UTCTimestamp } from 'lightweight-charts';
-import { translations, type Locale } from './i18n/translations';
-import { moduleNamesFa } from './i18n/moduleNames';
+// tradeyar-ui-v03: keep this marker for source generator safeguards
+import { useEffect, useState } from 'react';
+import ModuleView from './modules/ModuleView';
+import { modules, type Locale } from './modules/catalog';
+import { api } from './modules/api';
 
-type ModuleRow = { id: string; name: string; status: string };
-type Candle = { time: number; open: number; high: number; low: number; close: number; volume: number };
-type Quote = { symbol: string; bid: number; ask: number; source: string };
-function getDefaultLocale(): Locale {
-  try { return localStorage.getItem('tradeyar.locale') === 'en' ? 'en' : 'fa'; }
-  catch { return 'fa'; }
+function readLocale():Locale {
+  try { return localStorage.getItem('tradeyar.locale')==='en'?'en':'fa'; } catch {return 'fa';}
 }
-
-function CandleChart({ candles }: { candles: Candle[] }) {
-  const [element, setElement] = useState<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (!element || !candles.length) return;
-    const chart: IChartApi = createChart(element, {
-      width: element.clientWidth, height: 310,
-      layout: { background: { color: '#141f32' }, textColor: '#b8c6df' },
-      grid: { vertLines: { color: '#223149' }, horzLines: { color: '#223149' } },
-      timeScale: { timeVisible: true, secondsVisible: false }
-    });
-    const series = chart.addSeries(CandlestickSeries, {
-      upColor: '#31c48d', downColor: '#f87171', borderVisible: false,
-      wickUpColor: '#31c48d', wickDownColor: '#f87171'
-    });
-    series.setData(candles.map(c => ({ ...c, time: c.time as UTCTimestamp })));
-    chart.timeScale().fitContent();
-    const observer = new ResizeObserver(() => chart.applyOptions({ width: element.clientWidth }));
-    observer.observe(element);
-    return () => { observer.disconnect(); chart.remove(); };
-  }, [element, candles]);
-  return <div ref={setElement} className="chart" />;
+function readTheme():'dark'|'light' {
+  try {return localStorage.getItem('tradeyar.theme')==='light'?'light':'dark';}catch{return 'dark';}
 }
-
-export default function App() {
-  const [locale, setLocale] = useState<Locale>(getDefaultLocale);
-  const [health, setHealth] = useState('...');
-  const [modules, setModules] = useState<ModuleRow[]>([]);
-  const [candles, setCandles] = useState<Candle[]>([]);
-  const [quote, setQuote] = useState<Quote | null>(null);
-  const t = translations[locale];
-  const direction = locale === 'fa' ? 'rtl' : 'ltr';
-  useEffect(() => {
-    document.documentElement.lang = locale === 'fa' ? 'fa-IR' : 'en-US';
-    document.documentElement.dir = direction;
-    try { localStorage.setItem('tradeyar.locale', locale); } catch { /* disabled storage */ }
-  }, [locale, direction]);
-  useEffect(() => {
-    const read = async () => {
-      const fetchJson = async (url: string) => {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
-      };
-      setHealth('...');
-      setHealth(await fetchJson('/api/health').then(x => x.status as string).catch(() => 'OFFLINE'));
-      setModules(await fetchJson('/api/modules').catch(() => []));
-      setCandles(await fetchJson('/api/market/candles?symbol=EURUSD&limit=100').then(x => x.candles as Candle[]).catch(() => []));
-      setQuote(await fetchJson('/api/market/quote?symbol=EURUSD').catch(() => null));
-    };
-    void read();
-  }, []);
-  const grouped = useMemo(() => modules.slice().sort((a,b) => a.id.localeCompare(b.id)), [modules]);
-  return <div className="shell" dir={direction}>
-    <aside className="sidebar">
-      <div className="brand">◈ {t.app}<small>TradeYar v0.2</small></div>
-      <div className="aside-label">{t.categories}</div>
-      <div className="module-nav">{grouped.map(m => <div className="module-link" key={m.id}>
-        <span className="module-id">{m.id}</span><span>{locale === 'fa' ? moduleNamesFa[m.id] ?? m.name : m.name}</span>
-      </div>)}</div>
+function readModule():string {
+  const candidate=location.hash.replace(/^#\/?/,'').toUpperCase();
+  return modules.some(m=>m.id===candidate)?candidate:'M01';
+}
+export default function App(){
+  const [locale,setLocale]=useState<Locale>(readLocale);
+  const [theme,setTheme]=useState<'dark'|'light'>(readTheme);
+  const [selected,setSelected]=useState(readModule);
+  const [symbol,setSymbol]=useState('EURUSD');
+  const [health,setHealth]=useState('...');
+  const current=modules.find(m=>m.id===selected)??modules[0];
+  function navigate(id:string){setSelected(id);location.hash=id;}
+  useEffect(()=>{
+    const update=()=>setSelected(readModule());
+    addEventListener('hashchange',update);
+    return ()=>removeEventListener('hashchange',update);
+  },[]);
+  useEffect(()=>{
+    document.documentElement.lang=locale==='fa'?'fa-IR':'en-US';
+    document.documentElement.dir=locale==='fa'?'rtl':'ltr';
+    document.documentElement.setAttribute('data-theme',theme);
+    try {localStorage.setItem('tradeyar.locale',locale);localStorage.setItem('tradeyar.theme',theme);}catch{/* Storage disabled */}
+  },[locale,theme]);
+  useEffect(()=>{
+    let active=true;
+    api('/api/health').then(d=>{if(active)setHealth(String(d.status));}).catch(()=>{if(active)setHealth('OFFLINE');});
+    return ()=>{active=false;};
+  },[]);
+  const isFa=locale==='fa';
+  return <div className="shell">
+    <aside className="sidebar" aria-label={isFa?'ماژول‌های تریدیار':'TradeYar modules'}>
+      <button className="brand" onClick={()=>navigate('M01')} aria-label="TradeYar Dashboard">◇ {isFa?'تریدیار':'TradeYar'}<small>TradeYar v0.3 · DEMO</small></button>
+      <div className="aside-label">{isFa?'خدمات و ماژول‌ها':'Services & modules'}</div>
+      <nav className="module-nav">{modules.map(m=><button type="button" className={'module-link'+(m.id===selected?' selected':'')} onClick={()=>navigate(m.id)} key={m.id} aria-current={m.id===selected?'page':undefined}>
+        <span className="module-id" dir="ltr">{m.id}</span><span>{m[locale]}</span><span className="module-arrow" aria-hidden="true">›</span>
+      </button>)}</nav>
     </aside>
-    <main className="main">
+    <main className="main" id="content">
       <header className="topbar">
-        <div><h1>{t.title}</h1><p>{t.note}</p></div>
-        <div className="language-control"><span>{t.language}</span>
-          <button type="button" aria-label="Switch language" onClick={() => setLocale(locale === 'fa' ? 'en' : 'fa')}>
-            {locale === 'fa' ? 'English' : 'فارسی'}
-          </button>
+        <div><div className="kicker">TradeYar / {selected}</div><h1>{current[locale]}</h1><p>{isFa?current.descriptionFa:current.descriptionEn}</p></div>
+        <div className="top-actions"><span className={'status-pill'+(health==='READY'?' online':'')} title="Spring Boot">● {health}</span>
+          <button type="button" className="btn-small" aria-label="Switch language" onClick={()=>setLocale(locale==='fa'?'en':'fa')}>{isFa?'English':'فارسی'}</button>
         </div>
       </header>
-      <div className="info-grid">
-        <article className="info-card"><span>{t.connection}</span><strong>{health === 'READY' ? t.ready : t.disconnected}</strong><small>{health}</small></article>
-        <article className="info-card"><span>{t.modules}</span><strong>{modules.length} / 20</strong><small>{t.demo}</small></article>
-        <article className="info-card"><span>{t.price}</span><strong dir="ltr">{quote ? quote.bid.toFixed(5) : '—'}</strong><small>{quote?.source ?? t.unavailable}</small></article>
-        <article className="info-card"><span>{t.live}</span><strong>{t.locked}</strong><small>LOCKED</small></article>
-      </div>
-      <section className="surface">
-        <div className="surface-head"><h2>{t.chart}</h2><span className="warning">{t.marketSource}</span></div>
-        {candles.length ? <CandleChart candles={candles}/> : <p>{t.unavailable}</p>}
-      </section>
-      <p className="footer-warning">{t.disclaimer}</p>
+      <div className="module-meta"><span className="mode-pill">{selected} · {current.mode}</span><span>{isFa?'محیط توسعه و شبیه‌سازی؛ نه حساب معاملاتی واقعی':'Development / simulation, not a real trading account'}</span></div>
+      <div key={selected} className="module-content"><ModuleView id={selected} locale={locale} setLocale={setLocale} theme={theme} setTheme={setTheme} symbol={symbol} setSymbol={setSymbol} navigate={navigate}/></div>
+      <footer>{isFa?'داده‌های ساختگی برای معامله واقعی مناسب نیستند و اجرای واقعی غیرفعال است.':'Synthetic quotes are not suitable for actual trading. Live execution is disabled.'}</footer>
     </main>
   </div>;
 }
