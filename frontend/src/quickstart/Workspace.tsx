@@ -17,7 +17,7 @@ export default function Workspace({locale,config,onEdit,onLearning}:Props){
  const [running,setRunning]=useState(true),[last,setLast]=useState(''),[selected,setSelected]=useState('');
  const [risk,setRisk]=useState<Record<string,unknown>|null>(null),[riskError,setRiskError]=useState('');
  const [side,setSide]=useState<'BUY'|'SELL'>('BUY'),[paperBusy,setPaperBusy]=useState(false),[paperResult,setPaperResult]=useState('');
- const path=useMemo(()=>`/api/v05/snapshot?symbol=${encodeURIComponent(config.symbol)}&timeframe=${encodeURIComponent(config.timeframe)}&style=${encodeURIComponent(config.style)}`,[config.symbol,config.timeframe,config.style]);
+ const path=useMemo(()=>`/api/v06/snapshot?symbol=${encodeURIComponent(config.symbol)}&timeframe=${encodeURIComponent(config.timeframe)}&style=${encodeURIComponent(config.style)}`,[config.symbol,config.timeframe,config.style]);
  const streamPath=path.replace('/snapshot?','/stream?');
  const refresh=useCallback(async()=>{try{const next=await api(path) as Snapshot;setData(next);setError('');setLast(new Date().toISOString());}catch(e){setError(errorMessage(e));}},[path]);
  useEffect(()=>{void refresh();},[refresh]);
@@ -47,7 +47,7 @@ export default function Workspace({locale,config,onEdit,onLearning}:Props){
  }
  return <div className="v05-workspace">
   <section className="qs-panel">
-   <div className="qs-heading-inline"><div><span className="qs-eyebrow">TRADEYAR v0.5 · STRATEGY / STREAMING</span><h2>{fa?'میزکار هوشمند تحلیل':'Strategy monitoring workspace'}</h2><p>{profile?.[locale]||config.style} · {config.symbol} · {config.timeframe} · {config.mode==='DEMO'?'PAPER':'REAL VIEW ONLY'}</p></div><div className="qs-tools"><button className="qs-ghost" onClick={onEdit}>{fa?'تغییر تنظیمات':'Edit wizard'}</button><button className="qs-ghost" onClick={onLearning}>{fa?'مرکز دانش':'Research'}</button></div></div>
+   <div className="qs-heading-inline"><div><span className="qs-eyebrow">TRADEYAR v0.6 · RESEARCH / STREAMING</span><h2>{fa?'میزکار هوشمند تحلیل':'Strategy monitoring workspace'}</h2><p>{profile?.[locale]||config.style} · {config.symbol} · {config.timeframe} · {config.mode==='DEMO'?'PAPER':'REAL VIEW ONLY'}</p></div><div className="qs-tools"><button className="qs-ghost" onClick={onEdit}>{fa?'تغییر تنظیمات':'Edit wizard'}</button><button className="qs-ghost" onClick={onLearning}>{fa?'مرکز دانش':'Research'}</button></div></div>
    <div className="v05-tags"><span>{data?.source||'CONNECTING'}</span><span>{fa?'تایم‌فریم واقعی: ':'Effective timeframe: '}{data?.effectiveTimeframe||'—'}</span><span>{data?.fresh?'FRESH':'STALE / DEMO'}</span><span>REAL EXECUTION LOCKED</span></div>
    <div className="qs-stat-grid"><div><span>{fa?'قیمت Bid':'Bid'}</span><strong dir="ltr">{data?.quote?.bid??'—'}</strong></div><div><span>{fa?'۲۰ الگوریتم':'Strategies'}</span><strong>{rows.length} / 20</strong></div><div><span>{fa?'ارتباط':'Transport'}</span><strong>{state}</strong></div><div><span>{fa?'نتیجه':'Decision'}</span><strong>{data?.decision||'WAITING'}</strong></div></div>
    <div className="qs-chart-header"><h3>{fa?'نمودار قیمت':'Market chart'} · {config.symbol}</h3><div className="qs-tools"><label className="qs-inline-toggle"><input type="checkbox" checked={running} onChange={(e:any)=>setRunning(e.target.checked)}/>{fa?'پایش خودکار':'Auto monitor'}</label><button className="qs-primary" onClick={()=>void refresh()}>{fa?'بازخوانی':'Refresh'}</button></div></div>

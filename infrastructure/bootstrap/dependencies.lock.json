@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "comment": "Only download pinned, approved HTTPS packages. Add official URLs, 64-hex SHA-256 and publisher to packages; do not commit local credentials. Empty packages is intentionally fail-closed.",
+  "packages": [],
+  "services": [
+    {"id": "postgresql", "windowsServiceName": ""},
+    {"id": "redis", "windowsServiceName": ""}
+  ]
+}

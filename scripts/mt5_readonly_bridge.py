@@ -73,6 +73,21 @@ def main() -> int:
             finally:
                 if os.path.exists(tmpname):
                     os.unlink(tmpname)
+            # Each completed-bar snapshot is also merged into the local historical
+            # archive and, when configured, PostgreSQL. Never silently discard data.
+            from archive_live_snapshot_v06 import archive_snapshot
+            archive_root = os.getenv('TRADEYAR_HISTORY_DIR',str(Path(os.getenv('LOCALAPPDATA',str(Path.home())))/'TradeYar'/'history'))
+            archived,changed,conflicts = archive_snapshot(destfile,args.symbol,args.timeframe,archive_root)
+            print(f'Archived {args.symbol}/{args.timeframe}: {len(changed)} changed periods; {conflicts} revisions retained')
+            if os.getenv('TRADEYAR_PG_DSN') and changed:
+                try:
+                    from import_history_postgres_v06 import import_folder
+                    import_folder(archived,only_months=set(changed))
+                except Exception as e:
+                    print('ERROR: PostgreSQL unavailable; data safe locally, sync pending: '+str(e),file=sys.stderr)
+                    return 7
+            elif not os.getenv('TRADEYAR_PG_DSN'):
+                print('PostgreSQL not configured; archive saved locally, DB sync pending')
             stamp = datetime.fromtimestamp(int(rows[-1]["time"]), timezone.utc).isoformat()
             print(f"Wrote {len(rows)} CLOSED {args.timeframe} bars for {args.symbol} to {destfile}; last={stamp}", flush=True)
             if not args.loop:
