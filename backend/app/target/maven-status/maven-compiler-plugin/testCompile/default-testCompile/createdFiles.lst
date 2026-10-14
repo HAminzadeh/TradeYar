@@ -1,5 +1,6 @@
 com\tradeyar\app\workspace\WorkspaceControllerContractTest.class
 com\tradeyar\app\bootstrap\StartupDependencyMonitorTest.class
+com\tradeyar\app\v063\ResearchReplayV063Test.class
 com\tradeyar\app\bootstrap\BootstrapStatusHttpTest.class
 com\tradeyar\app\research\ResearchReadinessContractTest.class
 com\tradeyar\app\core\ModulesControllerTest.class

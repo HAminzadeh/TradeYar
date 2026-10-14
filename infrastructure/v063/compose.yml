@@ -1,0 +1,50 @@
+# Supplementary research services. Does not replace the existing TradeYar compose stack.
+# Use an uncommitted env file, e.g. infrastructure/platform/.env.
+services:
+  timescale:
+    image: timescale/timescaledb:2.18.2-pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${TRADEYAR_TS_DB:-tradeyar_timeseries}
+      POSTGRES_USER: ${TRADEYAR_TS_USER:-tradeyar_ts}
+      POSTGRES_PASSWORD: ${TRADEYAR_TS_PASSWORD:?Set TRADEYAR_TS_PASSWORD in local .env}
+    ports: ["127.0.0.1:5434:5432"]
+    volumes: ["timeseries-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      retries: 10
+  neo4j:
+    image: neo4j:5.26-community
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: ${TRADEYAR_NEO4J_AUTH:?Set TRADEYAR_NEO4J_AUTH to neo4j/long-password}
+      NEO4J_PLUGINS: ${TRADEYAR_NEO4J_PLUGINS:-[]}
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 1G
+    ports: ["127.0.0.1:7474:7474", "127.0.0.1:7687:7687"]
+    volumes: ["graph-data:/data", "graph-logs:/logs"]
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.3
+    restart: unless-stopped
+    environment:
+      CLICKHOUSE_DB: tradeyar_analytics
+      CLICKHOUSE_USER: ${TRADEYAR_CLICKHOUSE_USER:-tradeyar}
+      CLICKHOUSE_PASSWORD: ${TRADEYAR_CLICKHOUSE_PASSWORD:?Set TRADEYAR_CLICKHOUSE_PASSWORD in local .env}
+    ports: ["127.0.0.1:8123:8123", "127.0.0.1:9009:9000"]
+    volumes: ["analytics-data:/var/lib/clickhouse"]
+  minio:
+    image: minio/minio:RELEASE.2025-02-07T23-21-09Z
+    restart: unless-stopped
+    command: server /data --console-address ':9001'
+    environment:
+      MINIO_ROOT_USER: ${TRADEYAR_OBJECT_ACCESS_KEY:?Set TRADEYAR_OBJECT_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${TRADEYAR_OBJECT_SECRET_KEY:?Set TRADEYAR_OBJECT_SECRET_KEY}
+    ports: ["127.0.0.1:9010:9000", "127.0.0.1:9011:9001"]
+    volumes: ["object-data:/data"]
+volumes:
+  timeseries-data:
+  graph-data:
+  graph-logs:
+  analytics-data:
+  object-data:

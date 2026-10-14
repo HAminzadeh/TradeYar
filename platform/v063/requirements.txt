@@ -1,0 +1,7 @@
+# Install only into a dedicated virtualenv. Versions are bounded for compatibility.
+fastapi>=0.115,<1
+uvicorn>=0.34,<1
+pydantic>=2.10,<3
+psycopg[binary]>=3.2,<4
+neo4j>=5.26,<7
+# Research data handling uses Python standard library; no ML dependency required for Phase4.

@@ -1,0 +1,10 @@
+{
+    "updated_at_utc":  "2026-10-14T19:38:56.7742868Z",
+    "live_execution_enabled":  false,
+    "completed_parts":  [
+                            "part1",
+                            "part2",
+                            "part3",
+                            "part4"
+                        ]
+}
