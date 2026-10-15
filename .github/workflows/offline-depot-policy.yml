@@ -11,4 +11,4 @@ jobs:
         with:
           python-version: '3.11'
       - name: Validate exact image lock and offline-only scripts
-        run: python -m unittest discover -s tests -p 'test_offline_image_manifest.py' -v
+        run: python -m unittest discover -s tests -p 'test_offline*.py' -v

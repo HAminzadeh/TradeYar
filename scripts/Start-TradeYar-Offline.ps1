@@ -43,7 +43,7 @@ $WheelDir=Join-Path $Depot 'python-wheelhouse'
 $Images=[ordered]@{
   timescale  = @{image='timescale/timescaledb:2.18.2-pg16';file='timescaledb-2.18.2-pg16.tar'}
   neo4j     = @{image='neo4j:5.26-community';file='neo4j-5.26-community.tar'}
-  clickhouse= @{image='clickhouse/clickhouse-server:25.3';file='clickhouse-25.3.tar'}
+  clickhouse= @{image='clickhouse:25.3.14.14';file='clickhouse-25.3.14.14.tar'}
 }
 function Say([string]$Message) {Write-Host ('[TRADEYAR-OFFLINE] '+$Message) -ForegroundColor Cyan}
 function Ensure-Depot {
