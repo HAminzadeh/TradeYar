@@ -36,7 +36,7 @@ export function selectStyle(v:WizardConfig,style:TradingStyle):WizardConfig{
  return {...v,style,timeframe:profile.timeframe,riskPercent:profile.maxPaperRiskPercent};
 }
 export function readAppearance():Appearance{
- try{const v=localStorage.getItem(APPEARANCE_KEY);return v==='day'||v==='ocean'||v==='plum'?v:'night';}catch{return 'night';}
+ try{const v=localStorage.getItem(APPEARANCE_KEY);return v==='day'||v==='ocean'||v==='plum'?v:'day';}catch{return 'night';}
 }
 export function readLayout():Layout{
  try{const v=localStorage.getItem(LAYOUT_KEY);return v==='top'||v==='compact'?v:'sidebar';}catch{return 'sidebar';}
