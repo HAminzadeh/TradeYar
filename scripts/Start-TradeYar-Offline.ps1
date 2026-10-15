@@ -10,7 +10,7 @@ param(
   [string]$Mode = 'Status',
   [string]$ProjectPath = 'D:\ChatGPT_Projects\TradeYar',
   [string]$DepotPath = '',
-  [ValidateSet('timescale','neo4j','clickhouse','minio')]
+  [ValidateSet('timescale','neo4j','clickhouse')]
   [string[]]$Services = @('timescale'),
   [switch]$StartFrontend,
   [switch]$NoServices
@@ -44,7 +44,6 @@ $Images=[ordered]@{
   timescale  = @{image='timescale/timescaledb:2.18.2-pg16';file='timescaledb-2.18.2-pg16.tar'}
   neo4j     = @{image='neo4j:5.26-community';file='neo4j-5.26-community.tar'}
   clickhouse= @{image='clickhouse/clickhouse-server:25.3';file='clickhouse-25.3.tar'}
-  minio     = @{image='minio/minio:RELEASE.2025-02-07T23-21-09Z';file='minio-2025-02-07.tar'}
 }
 function Say([string]$Message) {Write-Host ('[TRADEYAR-OFFLINE] '+$Message) -ForegroundColor Cyan}
 function Ensure-Depot {
@@ -87,46 +86,16 @@ function Get-ContainerState([string]$svc){
   return ([string]$status).Trim()
 }
 function Restore-Image([string]$svc){
-  $record=$Images[$svc]
-  $reference=[string]$record.image
-  if(Image-Available $reference){Say "Image already available locally: $reference";return}
-  $archive=Join-Path $ImageDir ([string]$record.file)
-  $digestFile=$archive+'.sha256'
-  if(-not (Test-Path -LiteralPath $archive -PathType Leaf) -or -not (Test-Path -LiteralPath $digestFile -PathType Leaf)) {
-    throw "OFFLINE MISS: $reference not loaded; audited archive and SHA-256 required: $archive"
-  }
-  $expected=(Get-Content -LiteralPath $digestFile -Raw).Trim().Split(' ')[0].ToLowerInvariant()
-  if($expected -notmatch '^[a-f0-9]{64}$'){throw "Invalid checksum sidecar for $archive"}
-  $actual=(Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
-  if($actual -ne $expected){throw "SHA-256 mismatch. Refusing Docker load: $archive"}
-  Say "Loading audited offline image: $reference"
-  & docker load --input $archive
-  Assert-Success "Docker load $reference"
-  if(-not (Image-Available $reference)){throw "Offline archive did not contain expected image: $reference"}
+  $manager=Join-Path $Project 'scripts\Manage-TradeYar-OfflineImages.ps1'
+  if(-not (Test-Path -LiteralPath $manager)){throw "Missing audited offline image manager: $manager"}
+  & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $manager -ProjectPath $Project -DepotPath $Depot -Mode Restore -Services $svc
+  Assert-Success "Audited image restore: $svc"
 }
 function Save-Images {
-  Assert-Docker
-  foreach($svc in $Images.Keys){
-    $record=$Images[$svc];$reference=[string]$record.image
-    if(-not (Image-Available $reference)) {Write-Warning "Not locally available; skipped (no pull): $reference";continue}
-    $archive=Join-Path $ImageDir ([string]$record.file)
-    if(Test-Path -LiteralPath $archive){
-      if(-not (Test-Path -LiteralPath ($archive+'.sha256'))){throw "Archive exists without checksum; inspect manually: $archive"}
-      $want=(Get-Content -LiteralPath ($archive+'.sha256') -Raw).Trim().Split(' ')[0]
-      $got=(Get-FileHash $archive -Algorithm SHA256).Hash
-      if($want -ine $got){throw "Archive checksum mismatch: $archive"}
-      Say "Existing verified archive reused: $archive";continue
-    }
-    $temp=$archive+'.partial'
-    if(Test-Path -LiteralPath $temp){throw "Incomplete previous export exists: $temp"}
-    Say "Saving local Docker image (may require several GB of free disk): $reference"
-    & docker save --output $temp $reference
-    Assert-Success "Docker save $reference"
-    $sha=(Get-FileHash -LiteralPath $temp -Algorithm SHA256).Hash.ToLowerInvariant()
-    Move-Item -LiteralPath $temp -Destination $archive
-    [IO.File]::WriteAllText($archive+'.sha256',$sha+"`n",[Text.UTF8Encoding]::new($false))
-    Say "Archived with SHA-256: $archive"
-  }
+  $manager=Join-Path $Project 'scripts\Manage-TradeYar-OfflineImages.ps1'
+  if(-not (Test-Path -LiteralPath $manager)){throw "Missing audited offline image manager: $manager"}
+  & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $manager -ProjectPath $Project -DepotPath $Depot -Mode Seed
+  Assert-Success 'Audited image seeding'
 }
 function Copy-LocalCache([string]$src,[string]$target,[string]$label){
   if(-not (Test-Path -LiteralPath $src -PathType Container)){Write-Warning "$label cache missing: $src";return}
@@ -227,11 +196,10 @@ function Show-Status {
   Say "Project: $Project"
   Say "Depot: $Depot"
   Say 'Startup policy: reuse existing compatible tools + local image archives; NO online downloads'
-  foreach($s in $Images.Keys){
-    $arc=Join-Path $ImageDir ([string]$Images[$s].file)
-    $st=if(Test-Path -LiteralPath $arc){'ARCHIVE_PRESENT'}else{'NOT_ARCHIVED'}
-    Say "$s $st"
-  }
+  $manager=Join-Path $Project 'scripts\Manage-TradeYar-OfflineImages.ps1'
+  if(-not (Test-Path -LiteralPath $manager)){throw "Missing audited offline image manager: $manager"}
+  & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $manager -ProjectPath $Project -DepotPath $Depot -Mode Status
+  Assert-Success 'Audited image status'
   foreach($id in @('jdk','maven','node','python')){
     $dir=Join-Path $ToolDir $id
     Say "tool/${id}: $(if(Test-Path $dir){'PRESENT'}else{'NOT_CACHED'})"

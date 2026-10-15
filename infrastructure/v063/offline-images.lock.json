@@ -1,0 +1,22 @@
+{
+    "schemaVersion":  1,
+    "composeFile":  "infrastructure/v063/compose.yml",
+    "projectName":  "tradeyar-v063",
+    "assets":  [
+                   {
+                       "service":  "timescale",
+                       "image":  "timescale/timescaledb:2.18.2-pg16",
+                       "archive":  "timescaledb-2.18.2-pg16.tar"
+                   },
+                   {
+                       "service":  "neo4j",
+                       "image":  "neo4j:5.26-community",
+                       "archive":  "neo4j-5.26-community.tar"
+                   },
+                   {
+                       "service":  "clickhouse",
+                       "image":  "clickhouse:25.3.14.14",
+                       "archive":  "clickhouse-25.3.14.14.tar"
+                   }
+               ]
+}
